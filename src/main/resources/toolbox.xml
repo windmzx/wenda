@@ -1,0 +1,8 @@
+<toolbox>
+
+    <tool>
+        <key>date</key>
+        <socpe>application</socpe>
+        <class>org.apache.velocity.tools.generic.DateTool</class>
+    </tool>
+</toolbox>
