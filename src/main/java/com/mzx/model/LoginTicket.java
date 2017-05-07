@@ -9,7 +9,7 @@ public class LoginTicket {
     private int id;
     private int userId;
     private Date expired;
-    private int status;// 0有效，1无效
+    private int status;// 1有效，0无效
 
 
 

@@ -27,6 +27,10 @@ public class UserService {
         return userDAO.selectById(id);
     }
 
+    public void logout(String ticket) {
+        loginTicketDAO.upDateTicket(0, ticket);
+    }
+
     public Map<String, String> register(String username, String userPassword) {
         Map<String, String> map = new HashMap<>();
         if (StringUtils.isBlank(username) || StringUtils.isBlank(userPassword)) {
