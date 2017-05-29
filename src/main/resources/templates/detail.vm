@@ -138,7 +138,7 @@
             </div>
             <a name="draft"></a>
 
-            <form action="/addComment" method="post">
+            <form action="/addcomment" method="post">
                 <input type="hidden" name="questionId" value="$!{question.id}"/>
                 <div id="zh-question-answer-form-wrap" class="zh-question-answer-form-wrap">
                     <div class="zm-editable-editor-wrap" style="">
@@ -159,4 +159,6 @@
         </div>
     </div>
 </div>
+#parse("js.vm")
+<script type="text/javascript" src="/scripts/main/site/detail.js"></script>
 #parse("footer.vm")

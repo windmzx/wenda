@@ -26,7 +26,7 @@ public class LikeController {
     LikeService likeService;
 
     @ResponseBody
-    @RequestMapping(path = {"/like"}, method = {RequestMethod.GET})
+    @RequestMapping(path = {"/like"}, method = {RequestMethod.POST})
     public String like(@RequestParam("commentId") int commentId) {
         User user = hostHolder.getUser();
         if (user == null) {
@@ -38,7 +38,7 @@ public class LikeController {
     }
 
     @ResponseBody
-    @RequestMapping(path = {"/dislike"}, method = {RequestMethod.GET})
+    @RequestMapping(path = {"/dislike"}, method = {RequestMethod.POST})
     public String dislike(@RequestParam("commentId") int commentId) {
         User user = hostHolder.getUser();
         if (user == null) {
