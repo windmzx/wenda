@@ -56,19 +56,15 @@ public class DbTest {
             question.setUserId(i);
             questionDAO.addQuestion(question);
         }
-
         LoginTicket ticket = new LoginTicket();
         ticket.setExpired(new Date());
         ticket.setStatus(0);
         ticket.setUserId(1);
         String tickets = UUID.randomUUID().toString().replaceAll("-", "");
         ticket.setTicket(tickets);
+
         loginTicketDAO.insertTicket(ticket);
-
-
         LoginTicket tickettest=loginTicketDAO.selectTicketByTicket(tickets);
-
-
         loginTicketDAO.upDateTicket(1, tickettest.getTicket());
 
 

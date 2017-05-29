@@ -1,5 +1,7 @@
 package com.mzx.util;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.security.MessageDigest;
 
 /**
@@ -38,5 +40,18 @@ public class WendaUtil {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public static String getJsonString(int code,String msg){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code", code);
+        jsonObject.put("msg",msg);
+        return jsonObject.toJSONString();
+    }
+
+    public static String getJsonString(int code){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code", code);
+        return jsonObject.toJSONString();
     }
 }

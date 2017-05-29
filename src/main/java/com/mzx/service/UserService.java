@@ -27,6 +27,10 @@ public class UserService {
         return userDAO.selectById(id);
     }
 
+    public User getUserByName(String name) {
+        return userDAO.selectByName(name);
+    }
+
     public void logout(String ticket) {
         loginTicketDAO.upDateTicket(0, ticket);
     }
@@ -80,7 +84,7 @@ public class UserService {
         ticket.setStatus(1);
         ticket.setUserId(userId);
         Date date = new Date();
-        date.setTime(3600 * 24 * 7 + date.getTime());
+        date.setTime(1000 * 3600 * 24 * 7 + date.getTime());
         ticket.setExpired(date);
         ticket.setTicket(UUID.randomUUID().toString().replaceAll("-", ""));
         loginTicketDAO.insertTicket(ticket);

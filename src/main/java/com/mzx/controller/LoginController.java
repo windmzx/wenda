@@ -1,6 +1,8 @@
 package com.mzx.controller;
 
+
 import com.mzx.service.UserService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,7 @@ public class LoginController {
     public String register(Model model,
                            @RequestParam("username") String username,
                            @RequestParam("password") String password,
+                           @RequestParam(value = "callback", required = false) String callback,
                            HttpServletResponse response) {
         Map<String, String> map = userService.login(username, password);
         if (map.containsKey("msg")) {
@@ -34,8 +37,11 @@ public class LoginController {
         if (map.containsKey("ticket")) {
             Cookie cookie = new Cookie("ticket", map.get("ticket"));
             cookie.setPath("/");
-            cookie.setMaxAge(3600*12);
+            cookie.setMaxAge(3600 * 24 * 7);
             response.addCookie(cookie);
+            if (StringUtils.isNotBlank(callback)) {
+                return "redirect:" + callback;
+            }
             return "redirect:/";
         }
         return "login";
@@ -58,7 +64,8 @@ public class LoginController {
     }
 
     @RequestMapping(path = {"/loginpage"}, method = {RequestMethod.GET})
-    public String loginpage() {
+    public String loginpage(Model model, @RequestParam(value = "callback", required = false) String callback) {
+        model.addAttribute("callback", callback);
         return "login";
     }
 
