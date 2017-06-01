@@ -6,6 +6,7 @@ import java.util.Date;
  * Created by mengz on 2017/5/24.
  */
 public class Comment {
+
     private int id;
     private int userId;
     private int entityId;

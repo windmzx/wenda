@@ -40,6 +40,9 @@ public class QuestionController {
     @Autowired
     LikeService likeService;
 
+    @Autowired
+    FollowService followService;
+
     @ResponseBody
     @RequestMapping(path = {"/question/add"}, method = {RequestMethod.POST})
     public String addQuestion(@RequestParam("title") String title, @RequestParam("content") String content) {
@@ -74,13 +77,15 @@ public class QuestionController {
                 } else {
                     vo.set("liked", likeService.getLikeStatus(user.getId(), EntityType.ENTITY_COMMENT, qid));
                 }
-
                 vo.set("comment", comment);
                 vo.set("user", userService.getUserById(comment.getUserId()));
                 vo.set("likeCount", likeService.getLikeCount(EntityType.ENTITY_COMMENT, qid));
                 vos.add(vo);
             }
-
+            if (hostHolder.getUser() != null)
+                model.addAttribute("isFollow", followService.isFollower(hostHolder.getUser().getId(), EntityType.ENTITY_QUESTION, qid));
+            else
+                model.addAttribute("isFollow", false);
             model.addAttribute("comments", vos);
             model.addAttribute("question", question);
             return "detail";

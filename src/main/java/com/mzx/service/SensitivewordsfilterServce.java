@@ -1,6 +1,8 @@
 package com.mzx.service;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 
@@ -13,20 +15,28 @@ import java.util.Map;
  */
 @Service
 public class SensitivewordsfilterServce implements InitializingBean {
+    public static final Logger logger = LoggerFactory.getLogger(SensitivewordsfilterServce.class);
+
     public static final String REPALCESTRING = "*敏感*";
+
     TiredTreeNode rootNode = new TiredTreeNode();
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println("开始初始化");
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Sensiveword.text");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            line = line.trim();
-            addWord(line);
+        logger.info("开始初始化敏感词检查");
+        try {
+            InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("Sensiveword.text");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+                addWord(line);
+            }
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.error("敏感词初始化失败" + e.getMessage());
         }
-        inputStream.close();
     }
 
     class TiredTreeNode {

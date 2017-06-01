@@ -45,7 +45,7 @@ public class MessageController {
 
 
     @ResponseBody
-    @RequestMapping(path = {"/msg/addmessage"}, method = {RequestMethod.POST})
+    @RequestMapping(path = {"/msg/addMessage"}, method = {RequestMethod.POST})
     public String addMessage(@RequestParam("toName") String toName, @RequestParam("content") String content) {
         User user = userService.getUserByName(toName);
 
