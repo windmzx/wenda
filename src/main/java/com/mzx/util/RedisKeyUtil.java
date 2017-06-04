@@ -30,7 +30,7 @@ public class RedisKeyUtil {
     }
 
     //某个用户对某一种实体的关注列表
-    public static String getFolloweeKey(int userId, int entityType) {
-        return FOLLOWEE + SPLIT + String.valueOf(userId) + SPLIT + String.valueOf(entityType);
+    public static String getFolloweeKey(int entityType, int userId) {
+        return FOLLOWEE + SPLIT + String.valueOf(entityType) + SPLIT + String.valueOf(userId) ;
     }
 }

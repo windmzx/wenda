@@ -76,7 +76,8 @@ public class LikeController {
             return WendaUtil.getJsonString(999);
         }
 
-        long like = likeService.dislike(user.getId(), EntityType.ENTITY_COMMENT, commentId);
+        likeService.dislike(user.getId(), EntityType.ENTITY_COMMENT, commentId);
+        long like = likeService.getLikeCount(EntityType.ENTITY_COMMENT, commentId);
         return WendaUtil.getJsonString(0, String.valueOf(like));
     }
 

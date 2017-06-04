@@ -23,6 +23,7 @@ public class EventProducer {
             String key = RedisKeyUtil.getEventQueueKey();
             String json = JSONObject.toJSONString(eventModel);
             jedisAdapter.lpush(key, json);
+            logger.info("添加了一个异步任务");
             return true;
         } catch (Exception e) {
             logger.error("添加异步任务失败" + e.getMessage());
