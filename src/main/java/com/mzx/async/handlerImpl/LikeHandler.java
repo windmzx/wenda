@@ -3,6 +3,8 @@ package com.mzx.async.handlerImpl;
 import com.mzx.async.EventHandler;
 import com.mzx.async.EventModel;
 import com.mzx.async.EventType;
+import com.mzx.service.LikeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
@@ -14,6 +16,8 @@ import java.util.List;
  */
 @Component
 public class LikeHandler implements EventHandler {
+    @Autowired
+    LikeService likeService;
     @Override
     public void dohandle(EventModel eventModel) {
         int actorId = eventModel.getActorId();

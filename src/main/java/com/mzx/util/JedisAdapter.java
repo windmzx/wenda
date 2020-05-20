@@ -3,6 +3,7 @@ package com.mzx.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -21,6 +22,9 @@ public class JedisAdapter implements InitializingBean {
     private static final Logger logger = LoggerFactory.getLogger(JedisAdapter.class);
     private JedisPool pool;
 
+
+    @Value("${REDIS_HOST}")
+    String redis_host;
 //  public static void main(String[] args) {
 //        JedisAdapter adapter = new JedisAdapter();
 //        adapter.pool = new JedisPool("redis://localhost:6379/1");
@@ -30,7 +34,9 @@ public class JedisAdapter implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        pool = new JedisPool("redis://localhost:6379/10");
+        String host = "reids://" + redis_host + ":6379";
+        logger.info("redisHost:" + host);
+        pool = new JedisPool(host);
     }
 
     public long srem(String key, String value) {

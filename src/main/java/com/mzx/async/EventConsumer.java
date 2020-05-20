@@ -60,8 +60,9 @@ public class EventConsumer implements InitializingBean, ApplicationContextAware 
                     List<String> messages = jedisAdapter.brpop(0, key);
 
                     for (String message : messages) {
-                        if (message.equals(key))
+                        if (message.equals(key)) {
                             continue;
+                        }
                         EventModel eventModel = JSONObject.parseObject(message, EventModel.class);
                         if (!mapping.containsKey(eventModel.getType())) {
                             logger.error("未注册的事件");

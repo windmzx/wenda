@@ -27,7 +27,7 @@ public class LoginController {
     public String register(Model model,
                            @RequestParam("username") String username,
                            @RequestParam("password") String password,
-                           @RequestParam(value = "callback", required = false) String callback,
+                           @RequestParam(value = "next", required = false) String callback,
                            HttpServletResponse response) {
         Map<String, String> map = userService.login(username, password);
         if (map.containsKey("msg")) {
@@ -73,5 +73,10 @@ public class LoginController {
     public String logout(@CookieValue("ticket") String ticket) {
         userService.logout(ticket);
         return "redirect:/";
+    }
+
+    @RequestMapping(path = {"/reglogin"}, method = {RequestMethod.GET})
+    public String relogin(@RequestParam(value = "next", required = true) String next) {
+        return "login";
     }
 }

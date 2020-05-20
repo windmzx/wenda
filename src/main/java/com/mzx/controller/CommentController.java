@@ -49,8 +49,8 @@ public class CommentController {
         comment.setCreatedDate(new Date());
         comment.setStatus(1);
         comment.setEntityId(questionId);
-        logger.debug("id" + hostHolder.getUser().getId());
-        comment.setUserId(hostHolder.getUser().getId());
+        logger.debug("id" + HostHolder.getUser().getId());
+        comment.setUserId(HostHolder.getUser().getId());
         commentService.addComment(comment);
         int count = commentService.getCommentCount(questionId, EntityType.ENTITY_QUESTION);
         questionService.updateCommentCount(questionId, count);

@@ -76,11 +76,11 @@ public class QuestionController {
                 if (user == null) {
                     vo.set("liked", 0);
                 } else {
-                    vo.set("liked", likeService.getLikeStatus(user.getId(), EntityType.ENTITY_COMMENT, qid));
+                    vo.set("liked", likeService.getLikeStatus(user.getId(), EntityType.ENTITY_COMMENT, comment.getId()));
                 }
                 vo.set("comment", comment);
                 vo.set("user", userService.getUserById(comment.getUserId()));
-                vo.set("likeCount", likeService.getLikeCount(EntityType.ENTITY_COMMENT, qid));
+                vo.set("likeCount", likeService.getLikeCount(EntityType.ENTITY_COMMENT, comment.getId()));
                 vos.add(vo);
             }
 
@@ -97,10 +97,11 @@ public class QuestionController {
             }
             model.addAttribute("followUsers", voss);
 
-            if (hostHolder.getUser() != null)
-                model.addAttribute("isFollow", followService.isFollower(hostHolder.getUser().getId(), EntityType.ENTITY_QUESTION, qid));
-            else
+            if (HostHolder.getUser() != null) {
+                model.addAttribute("isFollow", followService.isFollower(HostHolder.getUser().getId(), EntityType.ENTITY_QUESTION, qid));
+            } else {
                 model.addAttribute("isFollow", false);
+            }
             model.addAttribute("comments", vos);
             model.addAttribute("question", question);
             return "detail";
