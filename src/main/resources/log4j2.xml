@@ -14,7 +14,7 @@
         <Kafka name="Kafka" topic="log" >
             <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY" />
             <PatternLayout pattern="%date %message"/>
-            <Property name="bootstrap.servers">192.168.10.100:9092</Property>
+            <Property name="bootstrap.servers">node1:9092,node2:9092,node3:9092</Property>
         </Kafka>
 
 
