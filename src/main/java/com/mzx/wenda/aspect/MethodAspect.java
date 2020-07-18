@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @Aspect
-@Component
+//@Component
 public class MethodAspect {
 
 

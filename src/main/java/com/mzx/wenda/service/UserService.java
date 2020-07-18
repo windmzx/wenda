@@ -65,8 +65,7 @@ public class UserService {
             return map;
         }
         User user = userDAO.selectByName(username);
-        if (user != null && password.equals(user.getPassword())) {
-            password = WendaUtil.MD5(password + user.getSalt());
+        if (user != null && WendaUtil.MD5(password + user.getSalt()).equals(user.getPassword())) {
             //密码符合成功登陆
             String ticket = addTicket(user.getId());
             //TODO 使之前的ticket失效

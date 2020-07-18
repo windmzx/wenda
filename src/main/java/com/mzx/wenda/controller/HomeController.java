@@ -39,11 +39,10 @@ public class HomeController {
     @Autowired
     HostHolder hostHolder;
 
-    @SystemLog
+    @SystemLog(envent = "home")
     @RequestMapping(path = {"/", "/index"}, method = {RequestMethod.GET})
     public String index(Model model) {
         model.addAttribute("vos", getQuestions(0, 0, 10));
-        log.info("home page");
         return "index";
     }
 

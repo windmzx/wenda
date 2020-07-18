@@ -42,42 +42,20 @@ public class SystemLogAspect {
         String requestUri = request.getRequestURI();/*获取请求地址*/
         String requestMethod = request.getMethod();/*获取请求方式*/
 //        String remoteAddr1 = request.getRemoteAddr();/*获取请求IP*/
-        String remoteAddr = this.getIpAddress(request);
+        String remoteAddr = WendaUtil.getIpAddress(request);
+        SystemLog systemLog = method.getAnnotation(SystemLog.class);
 
-        log.info("time:{},method:{},requestType:{},ip:{},userid:{}", System.currentTimeMillis(), method, requestUri, remoteAddr,hostHolder.getUser());
+        String envent = systemLog.envent();
+        int userid = 0;
+        if (hostHolder.getUser() != null) {
+            userid = hostHolder.getUser().getId();
+        }
+
+        log.info("time:{},envent:{},requestType:{},ip:{},userid:{}", System.currentTimeMillis(), envent, requestUri, remoteAddr, userid);
     }
 
 
-    public String getIpAddress(HttpServletRequest request) {
 
-        String ipAddress = request.getHeader("x-forwarded-for");
-        if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getHeader("Proxy-Client-IP");
-        }
-        if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getRemoteAddr();
-            if (ipAddress.equals("127.0.0.1") || ipAddress.equals("0:0:0:0:0:0:0:1")) {
-                //根据网卡取本机配置的IP
-                InetAddress inet = null;
-                try {
-                    inet = InetAddress.getLocalHost();
-                } catch (UnknownHostException e) {
-                    e.printStackTrace();
-                }
-                ipAddress = inet.getHostAddress();
-            }
-        }
-        //对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
-        if (ipAddress != null && ipAddress.length() > 15) { //"***.***.***.***".length() = 15
-            if (ipAddress.indexOf(",") > 0) {
-                ipAddress = ipAddress.substring(0, ipAddress.indexOf(","));
-            }
-        }
-        return ipAddress;
-    }
 
 
 }
