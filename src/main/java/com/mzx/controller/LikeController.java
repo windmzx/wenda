@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 
 /**
  * Created by mzx on 2017/5/28.
@@ -58,13 +59,8 @@ public class LikeController {
         eventModel.setType(EventType.LIKE);
         eventModel.setEntityOwnerId(comment.getUserId());
         eventProducer.produce(eventModel);
-        Message message = new Message();
-        message.setHasRead(0);
-        message.setToId(hostHolder.getUser().getId());
-        message.setFromId(hostHolder.getUser().getId());
-        message.setContent("用户赞了你的评论");
-        message.setCreatedDate(new Date());
-        messageService.addMessage(message);
+
+
         return WendaUtil.getJsonString(0, String.valueOf(like));
     }
 

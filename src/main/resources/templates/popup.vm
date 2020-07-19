@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- saved from url=(0039)question/36301524 -->
 <html lang="zh-CN" dropeffect="none" class="js  is-AppPromotionBarVisible cssanimations csstransforms csstransitions flexbox no-touchevents no-mobile" style=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script type="text/javascript" async="" src="../scripts/za-0.1.1.min.js"></script>
+<script type="text/javascript" async="" src="scripts/za-0.1.1.min.js"></script>
 <script async="" src="https://ssl.google-analytics.com/ga.js"></script>
 
 
@@ -19,7 +19,7 @@
 <meta id="znonce" name="znonce" content="8d61d9c6697d4080ab36aa3bdb21b9d8">
 
 <link rel="search" type="application/opensearchdescription+xml" href="" title="牛客">
-<link rel="stylesheet" href="../styles/detail.css">
+<link rel="stylesheet" href="styles/detail.css">
 
 
 
@@ -31,7 +31,7 @@
 <link href="/static/components/respond/cross-domain/respond.proxy.gif" id="respond-redirect" rel="respond-redirect" />
 <script src="/static/components/respond/cross-domain/respond.proxy.js"></script>
 <![endif]-->
-<script src="../scripts/instant.e7a17de6.js"></script>
+<script src="scripts/instant.e7a17de6.js"></script>
 </head>
 
 <body class="zhi ">
