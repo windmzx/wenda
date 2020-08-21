@@ -8,6 +8,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -28,6 +30,8 @@ public class SystemLogAspect {
 
     @Autowired
     HostHolder hostHolder;
+
+    private static final Marker REQ_MARKER = MarkerFactory.getMarker("REQ");
 
     @Before(value = "logPointCut()")
     public void before(JoinPoint joinPoint) {
@@ -51,11 +55,8 @@ public class SystemLogAspect {
             userid = hostHolder.getUser().getId();
         }
 
-        log.info("time:{},envent:{},requestType:{},ip:{},userid:{}", System.currentTimeMillis(), envent, requestUri, remoteAddr, userid);
+        log.info(REQ_MARKER, "envent:{},requestUri:{},ip:{},userid:{}", envent, requestUri, remoteAddr, userid);
     }
-
-
-
 
 
 }

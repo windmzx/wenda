@@ -1,8 +1,8 @@
-package com.mzx.async.handlerImpl;
+package com.mzx.wenda.async.handlerImpl;
 
-import com.mzx.async.EventHandler;
-import com.mzx.async.EventModel;
-import com.mzx.async.EventType;
+import com.mzx.wenda.async.EventHandler;
+import com.mzx.wenda.async.EventModel;
+import com.mzx.wenda.async.EventType;
 import org.springframework.stereotype.Component;
 
 

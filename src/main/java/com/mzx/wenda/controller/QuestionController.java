@@ -2,6 +2,7 @@ package com.mzx.wenda.controller;
 
 import com.mzx.wenda.model.*;
 import com.mzx.wenda.service.*;
+import com.mzx.wenda.util.SystemLog;
 import com.mzx.wenda.util.WendaUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,7 @@ public class QuestionController {
     FollowService followService;
 
 
+    @SystemLog(envent = "req")
     @ResponseBody
     @RequestMapping(path = {"/question/add"}, method = {RequestMethod.POST})
     public String addQuestion(@RequestParam("title") String title, @RequestParam("content") String content) {
@@ -63,6 +65,7 @@ public class QuestionController {
         }
     }
 
+    @SystemLog(envent = "req")
     @RequestMapping(path = {"/question/{qid}"}, method = {RequestMethod.GET})
     public String getquestion(@PathVariable("qid") int qid, Model model) {
         Question question = questionService.getQuestion(qid);

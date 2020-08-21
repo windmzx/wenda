@@ -2,11 +2,15 @@ package com.mzx.wenda.controller;
 
 
 import com.mzx.wenda.service.UserService;
+import com.mzx.wenda.util.JedisAdapter;
 import com.mzx.wenda.util.WendaUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+
+import org.apache.logging.log4j.MarkerManager;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -28,6 +33,7 @@ import java.util.Map;
 @Controller
 public class LoginController {
 
+    private static final Marker LOGIN_MARKER = MarkerFactory.getMarker("LOGIN");
 
     @Autowired
     UserService userService;
@@ -35,34 +41,50 @@ public class LoginController {
     @Autowired
     HttpServletRequest request;
 
+    @Autowired
+    JedisAdapter jedisAdapter;
+
     @RequestMapping(path = {"/login"}, method = {RequestMethod.POST})
     public String register(Model model,
                            @RequestParam("username") String username,
                            @RequestParam("password") String password,
                            @RequestParam(value = "next", required = false) String callback,
                            HttpServletResponse response) {
+
+        String logfail_key = "logfail" + username;
+        if (jedisAdapter.get(logfail_key) != null) {
+            model.addAttribute("msg", new HashMap<String, String>() {
+                {
+                    put("msg", "失败次数过多，请稍后再试");
+                }
+            });
+            return "login";
+
+        }
         Map<String, String> map = userService.login(username, password);
         if (map.containsKey("msg")) {
             model.addAttribute("msg", map.get("msg"));
             //登录失败
-            log.info("time:{},envent:{},requestType:{},ip:{},username:{},{}", System.currentTimeMillis(), "login", "/login", WendaUtil.getIpAddress(request), username, "fail");
+            log.info(LOGIN_MARKER, "envent:{},requestUri:{},ip:{},username:{},{}", "login", "/login", WendaUtil.getIpAddress(request), username, "fail");
             return "login";
         }
+
+
         if (map.containsKey("ticket")) {
             Cookie cookie = new Cookie("ticket", map.get("ticket"));
             cookie.setPath("/");
             cookie.setMaxAge(3600 * 24 * 7);
             response.addCookie(cookie);
             if (StringUtils.isNotBlank(callback)) {
-                log.info("time:{},envent:{},requestType:{},ip:{},username:{},{}", System.currentTimeMillis(), "login", "/login", WendaUtil.getIpAddress(request), username, "success");
+                log.info(LOGIN_MARKER, "envent:{},requestType:{},ip:{},username:{},{}", "login", "/login", WendaUtil.getIpAddress(request), username, "success");
 
                 return "redirect:" + callback;
             }
-            log.info("time:{},envent:{},requestType:{},ip:{},username:{},{}", System.currentTimeMillis(), "login", "/login", WendaUtil.getIpAddress(request), username, "success");
+            log.info(LOGIN_MARKER, "envent:{},requestType:{},ip:{},username:{},{}", "login", "/login", WendaUtil.getIpAddress(request), username, "success");
             return "redirect:/";
 
         }
-        log.info("time:{},envent:{},requestType:{},ip:{},username:{},{}", System.currentTimeMillis(), "login", "/login", WendaUtil.getIpAddress(request), username, "fail");
+        log.info(LOGIN_MARKER, "envent:{},requestType:{},ip:{},username:{},{}", "login", "/login", WendaUtil.getIpAddress(request), username, "fail");
         return "login";
     }
 

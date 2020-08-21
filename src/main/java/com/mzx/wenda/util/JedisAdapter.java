@@ -35,7 +35,7 @@ public class JedisAdapter implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         String host = "reids://" + redis_host + ":6379";
-        logger.info("redisHost:" + host);
+//        log.info("redisHost:" + host);
         pool = new JedisPool(host);
     }
 
@@ -52,6 +52,22 @@ public class JedisAdapter implements InitializingBean {
             }
         }
         return 0;
+    }
+
+
+    public String get(String key) {
+        Jedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            return jedis.get(key);
+        } catch (Exception e) {
+            log.error("发生异常" + e.getMessage());
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+        return "";
     }
 
     public long scard(String key) {
